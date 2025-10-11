@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
-import qs,{ ParsedQuery } from "query-string";
+import qs, { ParsedQuery } from "query-string";
 
 interface CategoryBoxProps {
   icon: IconType;
@@ -16,17 +16,16 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
   icon: Icon,
   label,
   selected,
-  description,
 }) => {
   const router = useRouter();
   const params = useSearchParams();
 
   const handleClick = useCallback(() => {
-    let currentQuery:ParsedQuery<string>  = {};
+    let currentQuery: ParsedQuery<string> = {};
     if (params) {
-      currentQuery = qs.parse(params.toString() );
+      currentQuery = qs.parse(params.toString());
     }
-    const updatedQuery:  ParsedQuery<string> = {
+    const updatedQuery: ParsedQuery<string> = {
       ...currentQuery,
       category: label,
     };
