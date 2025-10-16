@@ -66,8 +66,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       .then(() => {
         toast.success("listing reserved!");
         setDateRange(initialDateRange);
-        //redirect to / trips
-        router.refresh();
+        router.push("/trips");
       })
       .catch(() => {
         toast.error("sth went wrong");
@@ -113,7 +112,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               roomCount={listing.roomCount}
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
-              locationvalue={listing.locationValue}
+              locationValue={listing.locationValue}
             />
             <div className="order-first mb-10 md:order-last md:col-span-3">
               <ListingReservation
