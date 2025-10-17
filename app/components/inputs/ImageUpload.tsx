@@ -1,5 +1,8 @@
 "use client";
-import { CldUploadWidget } from "next-cloudinary";
+import {
+  CldUploadWidget,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 import Image from "next/image";
 import { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
@@ -11,15 +14,21 @@ interface ImageUploadProps {
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
   const handleUpload = useCallback(
-    (result: any) => {
-      // debug: inspect result in console to make sure secure_url exists
-      console.log("Cloudinary upload result:", result);
+    (results: CloudinaryUploadWidgetResults) => {
       // prefer secure_url (https) which Cloudinary provides
-      const url = result?.info?.secure_url;
-      if (url) {
-        onChange(url);
+      console.log({ results });
+
+      console.log("Cloudinary upload result:", results);
+
+      if (results.info) {
+        if (typeof results.info === "string") {
+          onChange(results.info);
+        } else {
+          onChange(results.info.secure_url);
+        }
       } else {
-        console.error("Upload did not return secure_url:", result);
+        // results.info is undefined
+        console.error("Result info is undefined");
       }
     },
     [onChange]
@@ -27,7 +36,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
 
   return (
     <CldUploadWidget
-      onUpload={handleUpload}
+      onSuccess={handleUpload}
       uploadPreset="ecwxx9hl" // make sure this preset exists in your Cloudinary account
       options={{ maxFiles: 1 }}
     >

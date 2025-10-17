@@ -31,10 +31,13 @@ const Search = () => {
       if (diff === 0) {
         diff = 1;
       }
+
       return `${diff} Days`;
     }
+    return "anyweek";
   }, [startDate, endDate]);
 
+  console.log(durational, durational);
   const guestLabel = useMemo(() => {
     if (guestCount) {
       return `${guestCount} Guests`;
