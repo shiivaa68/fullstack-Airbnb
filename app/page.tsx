@@ -20,6 +20,7 @@ const Home = async ({ searchParams }: HomeProps) => {
       </Clientonly>
     );
   }
+
   return (
     <Clientonly>
       <Container>
