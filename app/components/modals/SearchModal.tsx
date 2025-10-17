@@ -39,7 +39,7 @@ const SearchModal = () => {
       dynamic(() => import("../Map"), {
         ssr: false,
       }),
-    [location]
+    []
   );
 
   const onBack = useCallback(() => {
@@ -58,7 +58,7 @@ const SearchModal = () => {
     if (params) {
       currentQuery = qs.parse(params.toString());
     }
-    const updatedQuery: any = {
+    const updatedQuery: Record<string, string | number | undefined> = {
       ...currentQuery,
       locationValue: location?.value,
       guestCount,

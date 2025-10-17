@@ -10,6 +10,7 @@ export interface IListingsParams {
   locationValue?: string;
   category?: string;
 }
+
 export default async function getListings(params: IListingsParams) {
   try {
     const {
@@ -22,7 +23,9 @@ export default async function getListings(params: IListingsParams) {
       locationValue,
       category,
     } = params;
-    let query: any = {};
+
+    // ✅ Use const instead of let (ESLint prefers immutability)
+    const query: Record<string, unknown> = {};
 
     if (userId) {
       query.userId = userId;
@@ -31,21 +34,19 @@ export default async function getListings(params: IListingsParams) {
     if (category) {
       query.category = category;
     }
+
     if (roomCount) {
-      query.roomCount = {
-        gte: +roomCount,
-      };
+      query.roomCount = { gte: +roomCount };
     }
+
     if (guestCount) {
-      query.guestCount = {
-        gte: +guestCount,
-      };
+      query.guestCount = { gte: +guestCount };
     }
+
     if (bathroomCount) {
-      query.bathroomCount = {
-        gte: +bathroomCount,
-      };
+      query.bathroomCount = { gte: +bathroomCount };
     }
+
     if (locationValue) {
       query.locationValue = locationValue;
     }
@@ -68,6 +69,7 @@ export default async function getListings(params: IListingsParams) {
         },
       };
     }
+
     const listings = await prisma.listing.findMany({
       where: query,
       orderBy: {
@@ -79,8 +81,13 @@ export default async function getListings(params: IListingsParams) {
       ...listing,
       createdAt: listing.createdAt.toISOString(),
     }));
+
     return safeListings;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    // ✅ Type-safe error handling
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("An unexpected error occurred while fetching listings.");
   }
 }
