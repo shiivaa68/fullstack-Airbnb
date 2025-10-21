@@ -20,15 +20,16 @@ const HeartButton: React.FC<HeartButtonProps> = ({
   return (
     <div
       onClick={toggleFavorite}
-      className="relative hover:opacity-80 transition cursor-pointer"
+      className="relative w-8 h-8 cursor-pointer hover:opacity-80 transition"
     >
-      <AiOutlineHeart
-        size={28}
-        className="fill-white absolute -top-[2px] -right-[2px]"
-      />
+      {/* Outline Heart */}
+      <AiOutlineHeart size={32} className="absolute inset-0 text-white" />
+      {/* Filled Heart */}
       <AiFillHeart
-        size={24}
-        className={hasFavorited ? "fill-rose-500" : "fill-neutral-500/70"}
+        size={32}
+        className={`absolute inset-0 transition-colors ${
+          hasFavorited ? "text-rose-500" : "text-neutral-500/70"
+        }`}
       />
     </div>
   );

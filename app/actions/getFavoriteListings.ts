@@ -1,4 +1,4 @@
-import prisma from "@/app/libs/prismadb";
+import { prisma } from "@/app/libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
 
 export default async function getFavoriteListings() {
@@ -12,8 +12,11 @@ export default async function getFavoriteListings() {
     const favorites = await prisma.listing.findMany({
       where: {
         id: {
-          in: currentUser.favoriteIds || [],
+          in: currentUser.favoriteIds,
         },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
@@ -23,7 +26,8 @@ export default async function getFavoriteListings() {
     }));
 
     return safeFavorites;
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    console.error("[GET_FAVORITE_LISTINGS_ERROR]", error); // ✅ safe log
+    throw new Error("Failed to fetch favorite listings"); // ✅ no any, no unsafe throw
   }
 }

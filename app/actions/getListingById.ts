@@ -1,4 +1,4 @@
-import prisma from "@/app/libs/prismadb";
+import { prisma } from "@/app/libs/prismadb";
 
 interface IParams {
   listingId?: string;
@@ -27,7 +27,8 @@ export default async function getListingById(params: IParams) {
         emailVerified: listing.user.emailVerified?.toISOString() || null,
       },
     };
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    console.error("[GET_LISTING_BY_ID_ERROR]", error); // ✅ safe logging
+    throw new Error("Failed to fetch listing by ID"); // ✅ no any, no error-crash
   }
 }

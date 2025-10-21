@@ -1,5 +1,5 @@
 "use client";
-import toast, { Toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 import { useState, useCallback } from "react";

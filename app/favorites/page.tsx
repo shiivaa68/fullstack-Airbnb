@@ -19,6 +19,10 @@ const ListingPage = async () => {
       </Clientonly>
     );
   }
+  if (!currentUser) {
+  return <EmptyState title="No user found"
+          subtitle="Looks like you have no favorites listings" />;
+}
   return (
     <Clientonly>
       <FavoritesClient listings={listings} currentUser={currentUser} />
